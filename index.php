@@ -1,5 +1,31 @@
-<?php echo phpinfo()?>
+<?php
+if (isset($_GET['on'])) {
 
+  $username = 'IndiEcu';
+  $token = '1ee578893b06cbcde67e6bbd59c359f33d35101c';
+  $url = 'https://api.dev.name.com/v4/domains/sepo.work/url/forwarding/www';
+
+  $context = stream_context_create([
+    'http' => [
+      'header' => "Authorization: Basic " . base64_encode("$username:$token"),
+      'method' => 'GET', // или другой метод, если нужно
+      'ignore_errors' => true // чтобы обрабатывать HTTP-коды ошибок
+    ]
+  ]);
+
+  $response = file_get_contents($url, false, $context);
+
+  if ($response === false) {
+    throw new Exception("Ошибка при выполнении запроса");
+  }
+
+// Обработка ответа
+  print_r($response);
+
+} elseif (isset($_GET['off'])) {
+
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
